@@ -56,3 +56,17 @@ html {
 .simon-button.blue {
   background-color: #2185D0;
 }
+
+button
+{
+  align-items: center;
+  font-size:40px;
+  background-color:black;
+  color:white;
+}
+#count
+{
+   margin-left:20px;
+   font-size:30px;
+   color:black;
+}
