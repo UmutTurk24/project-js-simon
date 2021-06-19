@@ -8,6 +8,21 @@ html {
   font-size: 18px;
 }
 
+body{
+  margin: 0;
+}
+
+#nextRoundBox{
+  position: absolute;
+  margin-left: 2.5%;
+  width: 95%;
+  height: 95%;
+  background-color: rgba(92, 92, 92, 0.753);
+  font-size: 40px;
+  text-align: center;
+  visibility: hidden;
+}
+
 #content {
   width: 800px;
   margin: 0 auto;
