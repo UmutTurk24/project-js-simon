@@ -5,22 +5,96 @@ let blueButton = document.querySelector('.simon-button.blue');
 let nextRoundBox = document.querySelector('#nextRoundBox');
 let body = document.querySelector('body');
 var currentRound = 0;
-var player = false;
+var computer = false;
+var disableInputs;
+var sound;
+var time = 500;
+var down = false;
+var disableInputs;
+var sequence = [];
 
-
-function disableButtons(){
-  greenButton.disabled = true;
-  redButton.disabled = true;
-  yellowButton.disabled = true;
-  blueButton.disabled = true;
+function startGame(){
+  if (currentRound == 0)
+  {
+    let titleGone = document.querySelector('h1');
+    titleGone.innerHTML="";
+  }
+  nextRound();
 }
 
-function enableButtons(){
-  greenButton.disabled = false;
-  redButton.disabled = false;
-  yellowButton.disabled = false;
-  blueButton.disabled = false;
+function checkUserInput(currentColor){
+
 }
+
+function gameOver(){
+
+}
+
+
+function playSound(buttonName, time, computer, buttonStyle) {
+  let curButton = document.querySelector('.' + buttonName);
+  sound = new Audio("sound-" + buttonName + ".m4a");
+  sound.play();
+
+  if(computer){
+    setTimeout(function(){
+      sound.pause();
+      sound.currentTime = 0;
+      curButton.style = buttonStyle; 
+    },time);  
+  }
+}
+
+document.addEventListener('keydown', function(event) {
+
+  if(!disableInputs){
+    if(!down) {
+      down = true;
+      if(event.code == "ArrowDown"){
+        let originalStyle = redButton.style;
+        redButton.style.backgroundColor = "#ff5e5e";
+        playSound("red", time, computer, originalStyle);
+        checkUserInput("red");
+      }
+      if(event.code == "ArrowUp"){
+        let originalStyle = greenButton.style;
+        greenButton.style.backgroundColor = "#55ff7c";
+        playSound("green", time, computer, originalStyle);
+      }
+      if(event.code == "ArrowLeft"){
+        let originalStyle = blueButton.style;
+        blueButton.style.backgroundColor = "#57b6ff";
+        playSound("blue", time, computer, originalStyle);
+      }
+      if(event.code == "ArrowRight"){
+        let originalStyle = yellowButton.style;
+        yellowButton.style.backgroundColor = "#ffd557";
+        playSound("yellow", time, computer, originalStyle);
+      } 
+    }
+  }
+  
+}, false);
+
+document.addEventListener('keyup', function (event) {
+  if(!disableInputs){
+    sound.pause();
+      sound.currentTime = 0;
+      if(event.code == "ArrowDown"){
+        redButton.style.backgroundColor = "#DB2828";
+      }
+      if(event.code == "ArrowUp"){
+        greenButton.style.backgroundColor = "#21BA45";
+      }
+      if(event.code == "ArrowLeft"){
+        blueButton.style.backgroundColor = "#2185D0";
+      }
+      if(event.code == "ArrowRight"){
+        yellowButton.style.backgroundColor = "#FBBD08";
+      }
+      down = false;
+  }
+}, false);
 
 function newColor(){
   let newNum = Math.floor(Math.random() * 4) + 1;
@@ -40,122 +114,35 @@ function newColor(){
   return nextColor;
 }
 
-function nextRound(colorSequence){
-  // disableButtons();
+
+
+function nextRound(){
+  disableInputs = true;
   currentRound++;
   nextRoundBox.innerText = "Round: " + currentRound;
   nextRoundBox.style.visibility = "visible";
   setTimeout(function(){
     nextRoundBox.style.visibility = "hidden";
   },4000);  
-  colorSequence.push(newColor());
-  playSequence(colorSequence);
-  // enableButtons();
+  sequence.push(newColor());
+  playSequence();
+  disableInputs = false;
 }
 
-function playSequence(colorSequences){
-  player = true;
+function playSequence(){
+  computer = true;
   setTimeout(function(){
-    for (let x = 0; x < colorSequences.length; x++ ){
-      let color = colorSequences[x];
+    for (let x = 0; x < sequence.length; x++ ){
+      let color = sequence[x];
       setTimeout(function(){
         let curButton = document.querySelector('.' + color);
         let revertedStyle = curButton.style;
-        playSound(color,time,player,revertedStyle);
+        playSound(color,time,computer,revertedStyle);
       },1000);  
     }
   }, 6500);
-  player=false;
+  computer=false;
 }
-
-function startGame(){
-  
-  if (currentRound == 0)
-  {
-    let sequence = [];
-    let titleGone = document.querySelector('h1');
-    titleGone.innerHTML="";
-    nextRound(sequence);
-  }
-  nextRound(sequence);
-
-}
-
-
-var sound;
-var time = 500;
-
-function getCurrentButton(buttonName){
-  return buttonName;
-}
-
-function playSound(buttonName, time, player, buttonStyle) {
-  let curButton = document.querySelector('.' + buttonName);
-
-  sound = new Audio("sound-" + buttonName + ".m4a");
-  sound.play();
-
-  if(player){
-    setTimeout(function(){
-      sound.pause();
-      sound.currentTime = 0;
-      curButton.style = buttonStyle; 
-    },time);  
-  }
-}
-
-var down = false;
-document.addEventListener('keydown', function(event) {
-  if(!down) {
-    down = true;
-    if(event.code == "ArrowDown"){
-      let originalStyle = redButton.style;
-      redButton.style.backgroundColor = "#ff5e5e";
-      playSound("red", time, player, originalStyle);
-    }
-    if(event.code == "ArrowUp"){
-      let originalStyle = greenButton.style;
-      greenButton.style.backgroundColor = "#55ff7c";
-      playSound("green", time, player, originalStyle);
-    }
-    if(event.code == "ArrowLeft"){
-      let originalStyle = blueButton.style;
-      blueButton.style.backgroundColor = "#57b6ff";
-      playSound("blue", time, player, originalStyle);
-    }
-    if(event.code == "ArrowRight"){
-      let originalStyle = yellowButton.style;
-      yellowButton.style.backgroundColor = "#ffd557";
-      playSound("yellow", time, player, originalStyle);
-    }
-    
-  }
-    
-  
-  
-}, false);
-
-
-
-document.addEventListener('keyup', function (event) {
-      sound.pause();
-      sound.currentTime = 0;
-      if(event.code == "ArrowDown"){
-        redButton.style.backgroundColor = "#DB2828";
-      }
-      if(event.code == "ArrowUp"){
-        greenButton.style.backgroundColor = "#21BA45";
-      }
-      if(event.code == "ArrowLeft"){
-        blueButton.style.backgroundColor = "#2185D0";
-      }
-      if(event.code == "ArrowRight"){
-        yellowButton.style.backgroundColor = "#FBBD08";
-      }
-      down = false;
-}, false);
-
-
 
 function startTimer(){
     var counter = 15;
