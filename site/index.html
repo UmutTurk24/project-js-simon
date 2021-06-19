@@ -16,10 +16,18 @@
       <h1>Simon</h1>
 
       <div class="simon-container">
-        <div class="simon-button green"></div>
-        <div class="simon-button red"></div>
-        <div class="simon-button yellow"></div>
-        <div class="simon-button blue"></div>
+        <div class="simon-button green"> <span class="arrow-keys">↑</span></div>
+        <div class="simon-button red"><span class="arrow-keys">↓</span></div>
+        <div class="simon-button yellow"><span class="arrow-keys">→</span></div>
+        <div class="simon-button blue"><span class="arrow-keys">←</span></div>
+        <div class="play">
+          <div class="play-button-container">
+            <!-- <span id="count">15</span> <span>Seconds</span> -->
+            <button id="play-game" onclick="start()">
+              <span id="count">START</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
     <script
@@ -29,13 +37,8 @@
     </script>
 
     <script src="simon.js"></script>
-    <script src="buttons.js"></script>
   
-    <span id="count">15</span> seconds
-    <br>
-    <button onclick="start()">
-      START
-    </button>
+    
 
 </body>
 </html>
