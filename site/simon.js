@@ -19,6 +19,7 @@ var soundSpacingTime;
 
 const countdownMargin = 3000;
 const roundPopUp = 3000;
+const endRoundPop = 2000;
 
 function startGame(){
   var sequence = [];
@@ -48,12 +49,16 @@ function checkUserInput(currentColor){
 function endRound(){
   endRoundBox.innerText = " Congratulations on completing round: " + currentRound;
   endRoundBox.style.visibility = "visible";
+  clearInterval(gameTimer);
+  let startButtonText = document.getElementById("count");
+  startButtonText.innerText = "Nice!";
+  headerTag.innerText = "Prepare for the next round!";
   setTimeout(function(){
     endRoundBox.style.visibility = "hidden";
-  },4000);
+  },endRoundPop);
   setTimeout(function(){
     nextRound();
-  },5000);  
+  },3000);  
 }
 
 function gameOver(){
@@ -65,7 +70,7 @@ function gameOver(){
   setInterval(function() {
     counter--;
     if (counter >= 0) {
-      span = document.getElementById("countdown");
+      let span = document.getElementById("countdown");
       span.innerText = "In" + counter.toString() + "Seconds, The Page Will Be Reloaded";
     }
     if (counter == 0) {
@@ -76,7 +81,6 @@ function gameOver(){
   
 }
 
-
 function playSound(buttonName, computer, buttonStyle) {
   
   let curButton = document.querySelector('.' + buttonName);
@@ -84,7 +88,6 @@ function playSound(buttonName, computer, buttonStyle) {
   // console.log(curButton.style);
   sound.play();
 
-  
   if(computer){
 
     if(buttonName == "red"){
@@ -164,7 +167,7 @@ document.addEventListener('keyup', function (event) {
 }, false);
 
 function newColor(){
-  let newNum = Math.floor(Math.random() * 4) + 1;
+  let newNum = Math.floor((Math.random() * 4) + 1);
   let nextColor;
   if(newNum = 1){
     nextColor = "green";
@@ -181,19 +184,23 @@ function newColor(){
   return nextColor;
 }
 
+
 function nextRound(colorSequence){
   disableInputs = true;
   currentRound++;
   nextRoundBox.innerText = "Round: " + currentRound;
   nextRoundBox.style.visibility = "visible";
+
   setTimeout(function(){
     nextRoundBox.style.visibility = "hidden";
   },roundPopUp);  
-  colorSequence.push(newColor());
+
+  let myNextColor = newColor();
+  console.log(colorSequence);
+  colorSequence.push(myNextColor);
   poppedSequence = colorSequence;
   playSequence(colorSequence);
   disableInputs = false;
-  
 }
 
 function startTopTimer(timer){
@@ -202,15 +209,13 @@ function startTopTimer(timer){
 
   setInterval(function(){
     counter--;
-    if (counter == 3)
-    {
+    if (counter == 3){
       headerTag.innerText.style="color:red; font-weight: bold;";
-
     }
     if (counter >= 0) {
       headerTag.innerText="You can start in: " + counter + " seconds";
     }
-    if (counter == 0) {
+    if (counter == 0){
       headerTag.innerText="GO!";
         clearInterval(counter);
     }
@@ -223,9 +228,10 @@ function playSequence(colorSequences){
   calculateSoundLength();
   calculateSoundSpacingTime();
   let timerStarter = calculateStartTimer();
-  startTopTimer(timerStarter);
 
-
+  setTimeout(function(){
+    startTopTimer(timerStarter);
+  }, roundPopUp-1000);
   // console.log("playseq: " + computer);
   setTimeout(function(){
     for (let x = 0; x < colorSequences.length; x++ ){
@@ -240,7 +246,7 @@ function playSequence(colorSequences){
 
   setTimeout(function(){
     computer=false;
-    gameTimer = startTimer();
+    startTimer();
   }, timerStarter + countdownMargin);
 }
 
@@ -260,16 +266,15 @@ function calculateStartTimer(){
 
 function startTimer(){
   var counter = 30;
-  setInterval(function() {
+  gameTimer = setInterval(function() {
     counter--;
-    if (counter == 10)
-    {
-      document.getElementById("count").style="color:darkgreen; font-weight: bold;";
 
+    if (counter == 10){
+      document.getElementById("count").style="color:darkgreen; font-weight: bold;";
     }
     if (counter >= 0) {
-      span = document.getElementById("count");
-      span.innerHTML = counter;
+      let span = document.getElementById("count");
+      span.innerText = counter + " seconds left";
     }
     if (counter == 0) {
         gameOver();
