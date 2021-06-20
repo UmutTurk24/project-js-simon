@@ -5,20 +5,28 @@ let blueButton = document.querySelector('.simon-button.blue');
 let nextRoundBox = document.querySelector('#nextRoundBox');
 let endRoundBox = document.querySelector('#endRoundBox');
 let body = document.querySelector('body');
+let headerTag = document.querySelector('#headerTag');
 var currentRound = 0;
 var computer = false;
 var disableInputs;
 var sound;
-var time = 500;
+var soundLength = 1000;
 var down = false;
 var disableInputs;
 var poppedSequence = [];
 var gameTimer;
+var soundSpacingTime;
+
+const countdownMargin = 3000;
+const roundPopUp = 3000;
 
 function startGame(){
   var sequence = [];
-  let titleGone = document.querySelector('h1');
-  titleGone.innerHTML="";
+  soundLength = 700;
+  computer = false;
+  currentRound = 0;
+  down = false;
+  soundSpacingTime = 1000;
   nextRound(sequence);
 }
 
@@ -37,8 +45,6 @@ function checkUserInput(currentColor){
   }
 }
 
-
-
 function endRound(){
   endRoundBox.innerText = " Congratulations on completing round: " + currentRound;
   endRoundBox.style.visibility = "visible";
@@ -55,14 +61,12 @@ function gameOver(){
   endRoundBox.innerText = "Sorry, you lost on round: " + currentRound;
   endRoundBox.style.visibility = "visible";
 
-
-
   var counter = 10;
   setInterval(function() {
     counter--;
     if (counter >= 0) {
       span = document.getElementById("countdown");
-      span.innerText = "In" + counter.toString(base) + "Seconds, The Page Will Be Reloaded";
+      span.innerText = "In" + counter.toString() + "Seconds, The Page Will Be Reloaded";
     }
     if (counter == 0) {
       clearInterval(counter);
@@ -73,17 +77,35 @@ function gameOver(){
 }
 
 
-function playSound(buttonName, time, computer, buttonStyle) {
+function playSound(buttonName, computer, buttonStyle) {
+  
   let curButton = document.querySelector('.' + buttonName);
   sound = new Audio("sound-" + buttonName + ".m4a");
+  // console.log(curButton.style);
   sound.play();
 
+  
   if(computer){
+
+    if(buttonName == "red"){
+      curButton.style.backgroundColor = "#ff5e5e";
+    }
+    else if (buttonName == "green"){
+      curButton.style.backgroundColor = "#55ff7c";
+    }
+    else if (buttonName == "blue"){
+      curButton.style.backgroundColor = "#57b6ff";
+    }
+    else if(buttonName == "yellow"){
+      curButton.style.backgroundColor = "#ffd557";
+    }
+    
+    // console.log(curButton.value);
     setTimeout(function(){
       sound.pause();
       sound.currentTime = 0;
       curButton.style = buttonStyle; 
-    },time);  
+    },soundLength);  
   }
 }
 
@@ -95,25 +117,25 @@ document.addEventListener('keydown', function(event) {
       if(event.code == "ArrowDown"){
         let originalStyle = redButton.style;
         redButton.style.backgroundColor = "#ff5e5e";
-        playSound("red", time, computer, originalStyle);
+        playSound("red", computer, originalStyle);
         checkUserInput("red");
       }
       if(event.code == "ArrowUp"){
         let originalStyle = greenButton.style;
         greenButton.style.backgroundColor = "#55ff7c";
-        playSound("green", time, computer, originalStyle);
+        playSound("green", computer, originalStyle);
         checkUserInput("green");
       }
       if(event.code == "ArrowLeft"){
         let originalStyle = blueButton.style;
         blueButton.style.backgroundColor = "#57b6ff";
-        playSound("blue", time, computer, originalStyle);
+        playSound("blue", computer, originalStyle);
         checkUserInput("blue");
       }
       if(event.code == "ArrowRight"){
         let originalStyle = yellowButton.style;
         yellowButton.style.backgroundColor = "#ffd557";
-        playSound("yellow", time, computer, originalStyle);
+        playSound("yellow", computer, originalStyle);
         checkUserInput("yellow");
       } 
     }
@@ -166,27 +188,74 @@ function nextRound(colorSequence){
   nextRoundBox.style.visibility = "visible";
   setTimeout(function(){
     nextRoundBox.style.visibility = "hidden";
-  },4000);  
+  },roundPopUp);  
   colorSequence.push(newColor());
-  poppedSequence = sequence;
+  poppedSequence = colorSequence;
   playSequence(colorSequence);
   disableInputs = false;
-  gameTimer = startTimer();
+  
 }
+
+function startTopTimer(timer){
+
+  let counter = Math.floor((timer + countdownMargin)/1000);
+
+  setInterval(function(){
+    counter--;
+    if (counter == 3)
+    {
+      headerTag.innerText.style="color:red; font-weight: bold;";
+
+    }
+    if (counter >= 0) {
+      headerTag.innerText="You can start in: " + counter + " seconds";
+    }
+    if (counter == 0) {
+      headerTag.innerText="GO!";
+        clearInterval(counter);
+    }
+  }, 1000);
+}
+
 
 function playSequence(colorSequences){
   computer = true;
+  calculateSoundLength();
+  calculateSoundSpacingTime();
+  let timerStarter = calculateStartTimer();
+  startTopTimer(timerStarter);
+
+
+  // console.log("playseq: " + computer);
   setTimeout(function(){
     for (let x = 0; x < colorSequences.length; x++ ){
       let color = colorSequences[x];
       setTimeout(function(){
         let curButton = document.querySelector('.' + color);
         let revertedStyle = curButton.style;
-        playSound(color,time,computer,revertedStyle);
-      },1000);  
+        playSound(color,computer,revertedStyle);
+      },soundSpacingTime);  
     }
-  }, 6500);
-  computer=false;
+  }, timerStarter);
+
+  setTimeout(function(){
+    computer=false;
+    gameTimer = startTimer();
+  }, timerStarter + countdownMargin);
+}
+
+function calculateSoundLength(){
+  soundLength = soundLength - (currentRound*10);
+}
+
+function calculateSoundSpacingTime(){
+  soundSpacingTime = soundSpacingTime - (currentRound*10);
+}
+
+function calculateStartTimer(){
+  let multiplier = poppedSequence.length;
+  let timerStartTime = (multiplier * soundLength) + soundSpacingTime + 1000;
+  return timerStartTime;
 }
 
 function startTimer(){
