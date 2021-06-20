@@ -3,6 +3,7 @@ let redButton = document.querySelector('.simon-button.red');
 let yellowButton = document.querySelector('.simon-button.yellow');
 let blueButton = document.querySelector('.simon-button.blue');
 let nextRoundBox = document.querySelector('#nextRoundBox');
+let endRoundBox = document.querySelector('#endRoundBox');
 let body = document.querySelector('body');
 var currentRound = 0;
 var computer = false;
@@ -11,23 +12,64 @@ var sound;
 var time = 500;
 var down = false;
 var disableInputs;
-var sequence = [];
+var poppedSequence = [];
+var gameTimer;
 
 function startGame(){
-  if (currentRound == 0)
-  {
-    let titleGone = document.querySelector('h1');
-    titleGone.innerHTML="";
-  }
-  nextRound();
+  var sequence = [];
+  let titleGone = document.querySelector('h1');
+  titleGone.innerHTML="";
+  nextRound(sequence);
 }
 
 function checkUserInput(currentColor){
+  poppedColor = poppedSequence.pop();
+  if (currentColor != poppedColor){
+    setTimeout(function(){
+      gameOver();
+    },500);  
+  }
+  if(poppedSequence.length == 0){
+    setTimeout(function(){
+      endRound();
+      resetTimer();
+    },2000);  
+  }
+}
 
+
+
+function endRound(){
+  endRoundBox.innerText = " Congratulations on completing round: " + currentRound;
+  endRoundBox.style.visibility = "visible";
+  setTimeout(function(){
+    endRoundBox.style.visibility = "hidden";
+  },4000);
+  setTimeout(function(){
+    nextRound();
+  },5000);  
 }
 
 function gameOver(){
+  disableInputs = true;
+  endRoundBox.innerText = "Sorry, you lost on round: " + currentRound;
+  endRoundBox.style.visibility = "visible";
 
+
+
+  var counter = 10;
+  setInterval(function() {
+    counter--;
+    if (counter >= 0) {
+      span = document.getElementById("countdown");
+      span.innerText = "In" + counter.toString(base) + "Seconds, The Page Will Be Reloaded";
+    }
+    if (counter == 0) {
+      clearInterval(counter);
+      location.reload();
+    }
+    }, 1000);
+  
 }
 
 
@@ -60,16 +102,19 @@ document.addEventListener('keydown', function(event) {
         let originalStyle = greenButton.style;
         greenButton.style.backgroundColor = "#55ff7c";
         playSound("green", time, computer, originalStyle);
+        checkUserInput("green");
       }
       if(event.code == "ArrowLeft"){
         let originalStyle = blueButton.style;
         blueButton.style.backgroundColor = "#57b6ff";
         playSound("blue", time, computer, originalStyle);
+        checkUserInput("blue");
       }
       if(event.code == "ArrowRight"){
         let originalStyle = yellowButton.style;
         yellowButton.style.backgroundColor = "#ffd557";
         playSound("yellow", time, computer, originalStyle);
+        checkUserInput("yellow");
       } 
     }
   }
@@ -114,9 +159,7 @@ function newColor(){
   return nextColor;
 }
 
-
-
-function nextRound(){
+function nextRound(colorSequence){
   disableInputs = true;
   currentRound++;
   nextRoundBox.innerText = "Round: " + currentRound;
@@ -124,16 +167,18 @@ function nextRound(){
   setTimeout(function(){
     nextRoundBox.style.visibility = "hidden";
   },4000);  
-  sequence.push(newColor());
-  playSequence();
+  colorSequence.push(newColor());
+  poppedSequence = sequence;
+  playSequence(colorSequence);
   disableInputs = false;
+  gameTimer = startTimer();
 }
 
-function playSequence(){
+function playSequence(colorSequences){
   computer = true;
   setTimeout(function(){
-    for (let x = 0; x < sequence.length; x++ ){
-      let color = sequence[x];
+    for (let x = 0; x < colorSequences.length; x++ ){
+      let color = colorSequences[x];
       setTimeout(function(){
         let curButton = document.querySelector('.' + color);
         let revertedStyle = curButton.style;
@@ -145,24 +190,32 @@ function playSequence(){
 }
 
 function startTimer(){
-    var counter = 15;
-    setInterval(function() {
-      counter--;
-      if (counter >= 0) {
-        span = document.getElementById("count");
-        span.innerHTML = counter;
-      }
-      if (counter == 0) {
-          alert('sorry, out of time');
-          clearInterval(counter);
-      }
-    }, 1000);
-  }
-  function start()
-  {
-      document.getElementById("count").style="color:green;";
-      startTimer();
-      startGame();
-  };
+  var counter = 30;
+  setInterval(function() {
+    counter--;
+    if (counter == 10)
+    {
+      document.getElementById("count").style="color:darkgreen; font-weight: bold;";
 
+    }
+    if (counter >= 0) {
+      span = document.getElementById("count");
+      span.innerHTML = counter;
+    }
+    if (counter == 0) {
+        gameOver();
+        clearInterval(counter);
+    }
+  }, 1000);
+}
 
+function resetTimer(){
+  clearInterval(gameTimer);
+  gameTimer = 0;
+}
+
+function start()
+{
+    document.getElementById("count").style="color:green;";
+    startGame();
+}
