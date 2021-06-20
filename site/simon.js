@@ -6,29 +6,29 @@ let nextRoundBox = document.querySelector('#nextRoundBox');
 let endRoundBox = document.querySelector('#endRoundBox');
 let body = document.querySelector('body');
 let headerTag = document.querySelector('#headerTag');
-var currentRound = 0;
-var computer = false;
+var currentRound;
+var computer;
 var disableInputs;
 var sound;
-var soundLength = 1000;
-var down = false;
-var disableInputs;
+var soundLength;
+var down;
 var poppedSequence = [];
 var gameTimer;
 var soundSpacingTime;
+var sequence = [];
 
 const countdownMargin = 3000;
 const roundPopUp = 3000;
 const endRoundPop = 2000;
 
 function startGame(){
-  var sequence = [];
-  soundLength = 700;
+  sequence = [];
+  soundLength = 450;
   computer = false;
   currentRound = 0;
   down = false;
   soundSpacingTime = 1000;
-  nextRound(sequence);
+  nextRound();
 }
 
 function checkUserInput(currentColor){
@@ -78,7 +78,6 @@ function gameOver(){
       location.reload();
     }
     }, 1000);
-  
 }
 
 function playSound(buttonName, computer, buttonStyle) {
@@ -143,7 +142,6 @@ document.addEventListener('keydown', function(event) {
       } 
     }
   }
-  
 }, false);
 
 document.addEventListener('keyup', function (event) {
@@ -185,7 +183,7 @@ function newColor(){
 }
 
 
-function nextRound(colorSequence){
+function nextRound(){
   disableInputs = true;
   currentRound++;
   nextRoundBox.innerText = "Round: " + currentRound;
@@ -196,10 +194,10 @@ function nextRound(colorSequence){
   },roundPopUp);  
 
   let myNextColor = newColor();
-  console.log(colorSequence);
-  colorSequence.push(myNextColor);
-  poppedSequence = colorSequence;
-  playSequence(colorSequence);
+  console.log(myNextColor);
+  sequence.push(myNextColor);
+  poppedSequence = [...sequence];
+  playSequence();
   disableInputs = false;
 }
 
@@ -222,8 +220,7 @@ function startTopTimer(timer){
   }, 1000);
 }
 
-
-function playSequence(colorSequences){
+function playSequence(){
   computer = true;
   calculateSoundLength();
   calculateSoundSpacingTime();
@@ -232,10 +229,10 @@ function playSequence(colorSequences){
   setTimeout(function(){
     startTopTimer(timerStarter);
   }, roundPopUp-1000);
-  // console.log("playseq: " + computer);
+
   setTimeout(function(){
-    for (let x = 0; x < colorSequences.length; x++ ){
-      let color = colorSequences[x];
+    for (let x = 0; x < sequence.length; x++ ){
+      let color = sequence[x];
       setTimeout(function(){
         let curButton = document.querySelector('.' + color);
         let revertedStyle = curButton.style;
@@ -259,7 +256,7 @@ function calculateSoundSpacingTime(){
 }
 
 function calculateStartTimer(){
-  let multiplier = poppedSequence.length;
+  let multiplier = sequence.length;
   let timerStartTime = (multiplier * soundLength) + soundSpacingTime + 1000;
   return timerStartTime;
 }
@@ -278,7 +275,7 @@ function startTimer(){
     }
     if (counter == 0) {
         gameOver();
-        clearInterval(counter);
+        resetTimer();
     }
   }, 1000);
 }
