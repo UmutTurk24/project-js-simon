@@ -16,18 +16,21 @@ var poppedSequence = [];
 var gameTimer;
 var soundSpacingTime;
 var sequence = [];
+var pauseSegment;
 
 const countdownMargin = 3000;
 const roundPopUp = 3000;
 const endRoundPop = 2000;
+const nextRoundPrep = 3000;
 
 function startGame(){
   sequence = [];
   soundLength = 450;
-  computer = false;
+  computer = false; // try it with true
   currentRound = 0;
   down = false;
   soundSpacingTime = 1000;
+  pauseSegment = 500;
   nextRound();
 }
 
@@ -58,7 +61,7 @@ function endRound(){
   },endRoundPop);
   setTimeout(function(){
     nextRound();
-  },3000);  
+  },nextRoundPrep);  
 }
 
 function gameOver(){
@@ -194,7 +197,7 @@ function nextRound(){
   },roundPopUp);  
 
   let myNextColor = newColor();
-  console.log(myNextColor);
+  // console.log(myNextColor);
   sequence.push(myNextColor);
   poppedSequence = [...sequence];
   playSequence();
@@ -220,6 +223,7 @@ function startTopTimer(timer){
   }, 1000);
 }
 
+
 function playSequence(){
   computer = true;
   calculateSoundLength();
@@ -228,16 +232,17 @@ function playSequence(){
 
   setTimeout(function(){
     startTopTimer(timerStarter);
-  }, roundPopUp-1000);
+  }, roundPopUp-500);
 
   setTimeout(function(){
-    for (let x = 0; x < sequence.length; x++ ){
-      let color = sequence[x];
+    for (let x = 1; x < (sequence.length+1); x++ ){ // add loop multiplier, that's why +1
+      
       setTimeout(function(){
+        let color = sequence[x-1];
         let curButton = document.querySelector('.' + color);
         let revertedStyle = curButton.style;
         playSound(color,computer,revertedStyle);
-      },soundSpacingTime);  
+      },soundSpacingTime * x);  
     }
   }, timerStarter);
 
@@ -252,12 +257,13 @@ function calculateSoundLength(){
 }
 
 function calculateSoundSpacingTime(){
-  soundSpacingTime = soundSpacingTime - (currentRound*10);
+  pauseSegment = pauseSegment - (currentRound * 10);
+  soundSpacingTime = pauseSegment + soundLength + 50;
 }
 
 function calculateStartTimer(){
   let multiplier = sequence.length;
-  let timerStartTime = (multiplier * soundLength) + soundSpacingTime + 1000;
+  let timerStartTime = (multiplier * soundSpacingTime) + 1000;
   return timerStartTime;
 }
 
