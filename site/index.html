@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Simon</title>
-    <style>
-
-    </style>
-
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
@@ -27,7 +23,6 @@
         <div class="simon-button blue"><span class="arrow-keys">←</span></div>
         <div class="play">
           <div class="play-button-container">
-            <!-- <span id="count">15</span> <span>Seconds</span> -->
             <button id="play-game" onclick="start()">
               <span id="count">START</span>
             </button>
@@ -35,6 +30,22 @@
         </div>
       </div>
     </section>
+
+    <div id = "description-box">
+      <span id = "description-title">
+        What is Simon and How to play 
+      </span>
+      <p stlye="text-align: left">
+        Press the START button. Copy the sequences played to win the round and move forward to harder levels. 
+        It's the exciting memory game of lights and sounds in which players must repeat random sequences while 
+        being distracted by flashing colors. Play by pressing the buttons in the correct order on your own 
+        and you can even challenge friends to beat your score
+      </p>
+    </div>
+
+
+
+
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -72,13 +83,6 @@
         
         
     
-
-
-
-
-
-
-
   Click on something (?) asking keyboard presses for each color???
 Empty list - randomizer -> color - append to the list -> show the colors on the list 
 Add a timer at the top of the page to show how many seconds does the player have to answer 

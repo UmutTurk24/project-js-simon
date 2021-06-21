@@ -4,6 +4,7 @@ let yellowButton = document.querySelector('.simon-button.yellow');
 let blueButton = document.querySelector('.simon-button.blue');
 let nextRoundBox = document.querySelector('#nextRoundBox');
 let endRoundBox = document.querySelector('#endRoundBox');
+let descriptionBox = document.querySelector('#desciption-box');
 let body = document.querySelector('body');
 let headerTag = document.querySelector('#headerTag');
 var currentRound;
@@ -17,8 +18,8 @@ var gameTimer;
 var soundSpacingTime;
 var sequence = [];
 var pauseSegment;
+var countdownMargin;
 
-const countdownMargin = 3000;
 const roundPopUp = 3000;
 const endRoundPop = 2000;
 const nextRoundPrep = 3000;
@@ -26,6 +27,7 @@ const nextRoundPrep = 3000;
 function startGame(){
   sequence = [];
   soundLength = 450;
+  countdownMargin = 3000;
   computer = false; // try it with true
   currentRound = 0;
   down = false;
@@ -35,7 +37,7 @@ function startGame(){
 }
 
 function checkUserInput(currentColor){
-  poppedColor = poppedSequence.pop();
+  poppedColor = poppedSequence.shift();
   if (currentColor != poppedColor){
     setTimeout(function(){
       gameOver();
@@ -87,7 +89,7 @@ function playSound(buttonName, computer, buttonStyle) {
   
   let curButton = document.querySelector('.' + buttonName);
   sound = new Audio("sound-" + buttonName + ".m4a");
- console.log(curButton)
+  // console.log(curButton)
   sound.play();
 
   if(computer){
@@ -223,11 +225,15 @@ function startTopTimer(timer){
   }, 1000);
 }
 
+function calculateCountdownMargin(){
+  countdownMargin = countdownMargin + (currentRound * 500);
+}
 
 function playSequence(){
   computer = true;
   calculateSoundLength();
   calculateSoundSpacingTime();
+  calculateCountdownMargin();
   let timerStarter = calculateStartTimer();
 
   setTimeout(function(){
@@ -257,7 +263,7 @@ function calculateSoundLength(){
 }
 
 function calculateSoundSpacingTime(){
-  pauseSegment = pauseSegment - (currentRound * 10);
+  pauseSegment = pauseSegment + (currentRound * 20);
   soundSpacingTime = pauseSegment + soundLength + 50;
 }
 
@@ -265,6 +271,10 @@ function calculateStartTimer(){
   let multiplier = sequence.length;
   let timerStartTime = (multiplier * soundSpacingTime) + 1000;
   return timerStartTime;
+}
+
+function calculateCountdownMargin(){
+  countdownMargin = countdownMargin + (currentRound * 500);
 }
 
 function startTimer(){
