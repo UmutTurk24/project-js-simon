@@ -268,11 +268,13 @@ function calculateStartTimer(){
 }
 
 function startTimer(){
-  var counter = 30;
+  // var counter = 30;
+  var counter = 8 + (currentRound * 2);
+
   gameTimer = setInterval(function() {
     counter--;
 
-    if (counter == 10){
+    if (counter == 5){
       document.getElementById("count").style="color:darkgreen; font-weight: bold;";
     }
     if (counter >= 0) {
