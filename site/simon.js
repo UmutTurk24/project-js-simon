@@ -87,7 +87,7 @@ function playSound(buttonName, computer, buttonStyle) {
   
   let curButton = document.querySelector('.' + buttonName);
   sound = new Audio("sound-" + buttonName + ".m4a");
-  // console.log(curButton.style);
+ console.log(curButton)
   sound.play();
 
   if(computer){
@@ -170,13 +170,13 @@ document.addEventListener('keyup', function (event) {
 function newColor(){
   let newNum = Math.floor((Math.random() * 4) + 1);
   let nextColor;
-  if(newNum = 1){
+  if(newNum == 1){
     nextColor = "green";
   }
-  else if(newNum = 2){
+  else if(newNum == 2){
     nextColor = "red";
   }
-  else if(newNum = 3){
+  else if(newNum == 3){
     nextColor = "yellow";
   }
   else{
