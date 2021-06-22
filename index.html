@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simon</title>
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <div id="nextRoundBox"></div>
+    <div id="endRoundBox"></div>
+    <div id="gameOverBox">
+      <span id="countdown"></span>
+    </div>
+    <section id="content">
+      <h1 id = "headerTag">Simon</h1>
+
+      <div class="simon-container">
+        <div class="simon-button green"> <span class="arrow-keys">↑</span></div>
+        <div class="simon-button red"><span class="arrow-keys">↓</span></div>
+        <div class="simon-button yellow"><span class="arrow-keys">→</span></div>
+        <div class="simon-button blue"><span class="arrow-keys">←</span></div>
+        <div class="play">
+          <div class="play-button-container">
+            <button id="play-game" onclick="start()">
+              <span id="count">START</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id = "description-box">
+      <span id = "description-title">
+        What is Simon and How to play 
+      </span>
+      <p stlye="text-align: left">
+        Press the START button. Copy the sequences played to win the round and move forward to harder levels. 
+        It's the exciting memory game of lights and sounds in which players must repeat random sequences while 
+        being distracted by flashing colors. Play by pressing the buttons in the correct order on your own 
+        and you can even challenge friends to beat your score
+      </p>
+    </div>
+
+
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+
+    <script src="simon.js"></script>
+  
+    
+
+</body>
+</html>
+
+
+
+<!-- 
+  Things to do:
+    Main Page: 
+      Add description block 
+      Make the buttons a quarter circle * 
+        - Add a button in the middle to start the game 
+        - Once the button is activated the text will be replaced by how 
+          much does the player have in a round (aka do a timer)
+      Find a background color that doesn't hurt your eyes (pls no white)
+      Inside of the buttons should be labled with the corresponding arrow keys
+    
+      Game Itself
+        Attach keyboard binds and make sure that arrow keys are connected to the buttons
+        Create the light up effect for buttons when they are pressed down 
+        Also attach an audio to the buttons 
+        Create the sequence of keys that needs to be pressed each round. 
+          Create a randomizer that generates numbers from 1-4. 
+            1 will be up key, 2 will be left etc. 
+        At the beginning of the round, the whole list must be played by the computer.  (function)
+        
+        
+    
+  Click on something (?) asking keyboard presses for each color???
+Empty list - randomizer -> color - append to the list -> show the colors on the list 
+Add a timer at the top of the page to show how many seconds does the player have to answer 
+Order and there will be “rounds” 
+** And the difficulty (aka the number of colors you need to click on) increases over time. 
+- Sound element on each ‘lighting up’ 
+- When you lose, we wanna have a special lose sound 
+Speed + 
+ -->

@@ -1,0 +1,175 @@
+* {
+  box-sizing: border-box;
+
+}
+html {
+  background-color: #FCFCFC;
+  font-family: Arial;
+  font-size: 18px;
+}
+
+body{
+  margin: 0;
+  background-color: rgb(239, 255, 202);
+}
+
+#nextRoundBox{
+  position: absolute;
+  margin-left: 2.5%;
+  width: 95%;
+  height: 95%;
+  background-color: rgba(51, 51, 51, 0.603);
+  font-size: 40px;
+  line-height: 150px;
+  text-align: center;
+  visibility: hidden;
+}
+
+#endRoundBox{
+  position: absolute;
+  margin-left: 2.5%;
+  width: 95%;
+  height: 95%;
+  background-color: rgba(240, 61, 61, 0.5);
+  font-size: 40px;
+  text-align: center;
+  visibility: hidden;
+  line-height: 150px;
+}
+
+#gameOverBox{
+  position: absolute;
+  margin-left: 2.5%;
+  width: 95%;
+  height: 95%;
+  background-color: rgba(255, 72, 72, 0.5);
+  font-size: 40px;
+  text-align: center;
+  visibility: hidden;
+}
+
+#content {
+  width: 800px;
+  margin: 0 auto;
+}
+
+#description-box{
+  border: brown solid 10px;
+  padding: 20px;
+  position: relative;
+  height: 50%;
+  margin-left: 20%;
+  margin-right: 20%;
+  font-size: 1.2em;
+  font-weight: 540;
+  border-radius: 15px;
+  border-top-color: #21BA45;
+  border-right-color: #DB2828;
+  border-left-color: #FBBD08;
+  border-bottom-color: #2185D0;
+}
+
+#description-title{
+  font-size: 1.4em;
+  font-weight: bold;
+  background-color: #52f86e;
+  padding: 5px;
+}
+
+#content h1 {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.simon-container {
+  margin: 20px auto;
+  width:600px;
+  height:600px;
+  background-color:#fff;
+  display:grid;
+  grid-template-columns: 300px 300px;
+  grid-row: auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.play{
+  position: absolute;
+  margin-left: 180px;
+  margin-top: 180px;
+  width: 260px;
+  height: 260px;
+  background-color: white;
+  border-radius: 150px;
+  
+}
+
+#play-game{
+  width: 240px;
+  height: 240px;
+  background-color: brown; 
+  border-radius: 120px;
+ 
+}
+#count{
+  margin-right: 10px;
+}
+
+.play-button-container{
+  margin-top: 3.5%;
+  margin-left: 4.5%;
+}
+
+.simon-container .simon-button {
+  align-items: center;
+  background-color: #333;
+  border-radius: 10px;
+  color: #fff;
+  padding: 20px;
+  justify-content: center;
+  font-size: 40px;
+  font-family: sans-serif;
+}
+
+.simon-button.green {
+  background-color: #21BA45;
+  border-top-left-radius: 300px;
+}
+
+.simon-button.red {
+  background-color: #DB2828;
+  border-top-right-radius: 300px;
+}
+
+.simon-button.yellow {
+  background-color: #FBBD08;
+  border-bottom-left-radius: 300px;
+
+}
+
+.simon-button.blue {
+  background-color: #2185D0;
+  border-bottom-right-radius: 300px;
+}
+
+button
+{
+  align-items: center;
+  font-size:40px;
+  background-color:black;
+  color:white;
+}
+.arrow-keys{
+  position: absolute;
+  font-size: 50px;
+  margin-left: 100px;
+  margin-top: 100px;
+  color: black;
+}
+
+#count
+{
+   margin-left:20px;
+   font-size:30px;
+   color:black;
+}
