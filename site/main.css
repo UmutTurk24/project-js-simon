@@ -18,7 +18,7 @@ body{
   margin-left: 2.5%;
   width: 95%;
   height: 95%;
-  background-color: rgba(51, 51, 51, 0.603);
+  background-color: rgba(51, 51, 51, 0.842);
   font-size: 40px;
   line-height: 150px;
   text-align: center;
@@ -30,7 +30,7 @@ body{
   margin-left: 2.5%;
   width: 95%;
   height: 95%;
-  background-color: rgba(240, 61, 61, 0.5);
+  background-color: rgba(40, 170, 90, 0.87);
   font-size: 40px;
   text-align: center;
   visibility: hidden;
@@ -42,7 +42,7 @@ body{
   margin-left: 2.5%;
   width: 95%;
   height: 95%;
-  background-color: rgba(255, 72, 72, 0.5);
+  background-color: rgba(158, 45, 45, 0.637);
   font-size: 40px;
   text-align: center;
   visibility: hidden;
@@ -67,6 +67,8 @@ body{
   border-right-color: #DB2828;
   border-left-color: #FBBD08;
   border-bottom-color: #2185D0;
+  visibility: visible;
+  text-align: center;
 }
 
 #description-title{

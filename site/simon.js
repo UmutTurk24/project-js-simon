@@ -4,7 +4,6 @@ let yellowButton = document.querySelector('.simon-button.yellow');
 let blueButton = document.querySelector('.simon-button.blue');
 let nextRoundBox = document.querySelector('#nextRoundBox');
 let endRoundBox = document.querySelector('#endRoundBox');
-let descriptionBox = document.querySelector('#desciption-box');
 let body = document.querySelector('body');
 let headerTag = document.querySelector('#headerTag');
 var currentRound;
@@ -306,5 +305,8 @@ function resetTimer(){
 function start()
 {
     document.getElementById("count").style="color:green;";
+    let descriptionBox = document.querySelector('#description-box');
+    descriptionBox.style.visibility = "hidden";
+
     startGame();
 }
